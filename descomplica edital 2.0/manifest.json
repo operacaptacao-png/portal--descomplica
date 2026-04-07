@@ -1,0 +1,21 @@
+{
+  "name": "Descomplica Edital & Laboratório",
+  "short_name": "Descomplica",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7ee",
+  "theme_color": "#72559f",
+  "description": "Tire sua ideia do papel de forma simples e objetiva.",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/pXxy0cnj/LOGO-NOVA-DESCOMPLICA.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/pXxy0cnj/LOGO-NOVA-DESCOMPLICA.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
