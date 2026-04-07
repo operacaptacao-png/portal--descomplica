@@ -229,7 +229,6 @@
         .btn-salvar { background: var(--roxo); color: white; }
         .btn-baixar { background: var(--preto); color: white; }
         .btn-pdf { background: #e74c3c; color: white; }
-        .btn-safire { background: #e74c3c; color: white; box-shadow: 0 0 10px rgba(231,76,60,0.5); }
         .btn-topo:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         .campo-grupo { margin-bottom: 35px; }
@@ -266,31 +265,11 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* WIDGET DA SAFIRE DESATIVADO TEMPORARIAMENTE
-        #container-safire {
-            position: fixed; bottom: 20px; right: 20px; z-index: 5000;
-            display: none; flex-direction: column; align-items: flex-end;
-            transition: 0.3s;
-        }
-        .balao-safire {
-            background: white; border: 3px solid var(--roxo); border-radius: 15px;
-            padding: 15px; margin-bottom: 10px; position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: none;
-            max-width: 320px;
-        }
-        .balao-safire::after {
-            content: ''; position: absolute; bottom: -15px; right: 30px;
-            border-width: 15px 15px 0; border-style: solid; border-color: var(--roxo) transparent;
-        }
-        .img-safire { 
-            width: 110px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); cursor: pointer; transition: 0.2s;
-        }
-        .img-safire:hover { transform: scale(1.05); }
-        */
-
     </style>
 </head>
-<body> <div class="faixa-fomento-topo">
+<body>
+
+    <div class="faixa-fomento-topo">
         Este projeto foi contemplado pela Prefeitura Municipal de Mundo Novo, Secretaria Municipal de Cultura, Esporte e Lazer e da Lei Paulo Gustavo, Ministério da Cultura, Governo Federal.
     </div>
 
@@ -666,13 +645,10 @@
             document.querySelectorAll('.tela').forEach(tela => tela.classList.remove('ativa'));
             document.getElementById(idDestino).classList.add('ativa');
             
-            // Controle do Modo Lab
             if (idDestino === 'pagina-projeto') { 
                 document.body.classList.add('modo-lab');
-                // document.getElementById('container-safire').style.display = 'flex'; // DESATIVADO
             } else { 
                 document.body.classList.remove('modo-lab');
-                // document.getElementById('container-safire').style.display = 'none'; // DESATIVADO
             }
             
             const dropdown = document.getElementById('dropdown');
@@ -878,7 +854,6 @@
             return '';
         }
 
-        // === EXPORTAÇÃO (WORD/EXCEL/PDF) ===
         function executarBaixarAba() {
             if(abaAtiva === 'projeto') exportarWord();
             else exportarExcel(getIdTabelaAtual(), (document.getElementById('p-titulo').value || "Projeto") + '_' + abaAtiva);
@@ -984,18 +959,9 @@
             tab.querySelectorAll('td').forEach(cell => { cell.style.border = "1px solid #ddd"; cell.style.padding = "8px"; cell.style.fontSize = "12px"; });
             return tab.outerHTML;
         }
+    </script>
 
-        /* === SAFIRE IA AVALIADORA DESATIVADA TEMPORARIAMENTE ===
-        const IMGS_SAFIRE = { ... };
-        let timerSoneca;
-        let safireStatus = 'espera';
-        function resetTimerSafire() { ... }
-        function atualizarSafire(estado, texto) { ... }
-        function toggleBalao() { ... }
-        function fecharBalao() { ... }
-        async function pedirAvaliacaoSafire() { ... }
-        */
-<div vw class="enabled">
+    <div vw class="enabled">
       <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
@@ -1005,5 +971,5 @@
     <script>
       new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-</body>
+    </body>
 </html>
