@@ -266,7 +266,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* WIDGET DA SAFIRE - DISCRETO E NÃO ATRAPALHA */
+        /* WIDGET DA SAFIRE DESATIVADO TEMPORARIAMENTE
         #container-safire {
             position: fixed; bottom: 20px; right: 20px; z-index: 5000;
             display: none; flex-direction: column; align-items: flex-end;
@@ -283,17 +283,14 @@
             border-width: 15px 15px 0; border-style: solid; border-color: var(--roxo) transparent;
         }
         .img-safire { 
-            width: 110px; /* Tamanho reduzido para não atrapalhar */
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); 
-            cursor: pointer; transition: 0.2s;
+            width: 110px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); cursor: pointer; transition: 0.2s;
         }
         .img-safire:hover { transform: scale(1.05); }
+        */
 
     </style>
 </head>
-<body onmousemove="resetTimerSafire()">
-
-    <div class="faixa-fomento-topo">
+<body> <div class="faixa-fomento-topo">
         Este projeto foi contemplado pela Prefeitura Municipal de Mundo Novo, Secretaria Municipal de Cultura, Esporte e Lazer e da Lei Paulo Gustavo, Ministério da Cultura, Governo Federal.
     </div>
 
@@ -504,7 +501,6 @@
                     <h2 id="titulo-pagina-atual">Texto do Projeto</h2>
                     
                     <div class="area-botoes-topo">
-                        <button class="btn-topo btn-safire" onclick="pedirAvaliacaoSafire()">✨ AVALIAR COM SAFIRE</button>
                         <button class="btn-topo btn-novo" onclick="novoProjeto()">+ Novo</button>
                         <button class="btn-topo btn-salvar" onclick="salvarGeral(true)">💾 Salvar</button>
                         <button class="btn-topo btn-baixar" onclick="executarBaixarAba()">⬇ Editável (Aba Atual)</button>
@@ -578,16 +574,6 @@
         </div>
 
         <button class="btn-fechar-parabens" onclick="fecharParabens()">FECHAR E CONTINUAR</button>
-    </div>
-
-    <div id="container-safire">
-        <div class="balao-safire" id="balao-safire">
-            <div id="texto-safire" style="font-size:0.85rem; line-height:1.4; max-height:200px; overflow-y:auto; color: #333;">
-                Miau! Sou a Safire. Enquanto você escreve, eu observo.
-            </div>
-            <button class="btn" style="padding:5px 15px; font-size:0.7rem; margin-top:10px;" onclick="fecharBalao()">OK</button>
-        </div>
-        <img src="https://i.postimg.cc/HLJ2J7VG/FUNDO-TRANSPARENTE-AGORA-DE-VERDADE.png" id="img-safire" class="img-safire" onclick="toggleBalao()" title="Clique para conversar">
     </div>
 
     <script>
@@ -680,13 +666,13 @@
             document.querySelectorAll('.tela').forEach(tela => tela.classList.remove('ativa'));
             document.getElementById(idDestino).classList.add('ativa');
             
-            // Controle da Safire e Modo Lab
+            // Controle do Modo Lab
             if (idDestino === 'pagina-projeto') { 
                 document.body.classList.add('modo-lab');
-                document.getElementById('container-safire').style.display = 'flex';
+                // document.getElementById('container-safire').style.display = 'flex'; // DESATIVADO
             } else { 
                 document.body.classList.remove('modo-lab');
-                document.getElementById('container-safire').style.display = 'none';
+                // document.getElementById('container-safire').style.display = 'none'; // DESATIVADO
             }
             
             const dropdown = document.getElementById('dropdown');
@@ -999,91 +985,17 @@
             return tab.outerHTML;
         }
 
-        // === SAFIRE - IA AVALIADORA ===
-        const IMGS_SAFIRE = {
-            espera: "https://i.postimg.cc/HLJ2J7VG/FUNDO-TRANSPARENTE-AGORA-DE-VERDADE.png",
-            analisando: "https://i.postimg.cc/Wb2wGyhh/safire-procurando.png",
-            ruim: "https://i.postimg.cc/pLSQtXk8/safire-nao-achando.png",
-            bom: "https://i.postimg.cc/JnVbG6fz/safire-achando.png",
-            soneca: "https://i.postimg.cc/cCTYksrx/safire-sonequinha.png"
-        };
-
+        /* === SAFIRE IA AVALIADORA DESATIVADA TEMPORARIAMENTE ===
+        const IMGS_SAFIRE = { ... };
         let timerSoneca;
         let safireStatus = 'espera';
+        function resetTimerSafire() { ... }
+        function atualizarSafire(estado, texto) { ... }
+        function toggleBalao() { ... }
+        function fecharBalao() { ... }
+        async function pedirAvaliacaoSafire() { ... }
+        */
 
-        function resetTimerSafire() {
-            // Se ela estiver dormindo e o usuário mexer o mouse, ela acorda
-            if (safireStatus === 'soneca') {
-                atualizarSafire('espera', "Miau! Acordei. Pode continuar escrevendo, Artista.");
-                setTimeout(() => fecharBalao(), 4000); // Fecha o balão depois de 4 segundos para não atrapalhar
-            }
-            
-            clearTimeout(timerSoneca);
-            // Inicia a contagem para dormir se ficar inativo
-            timerSoneca = setTimeout(() => {
-                if (safireStatus === 'espera' || safireStatus === 'bom' || safireStatus === 'ruim') {
-                    atualizarSafire('soneca', "Enquanto você escreve, eu durmo... ZzzZzz...");
-                }
-            }, 60000); // 1 minuto de inatividade (60000 ms)
-        }
-
-        function atualizarSafire(estado, texto) {
-            safireStatus = estado;
-            document.getElementById('img-safire').src = IMGS_SAFIRE[estado];
-            if (texto) {
-                document.getElementById('balao-safire').style.display = 'block';
-                document.getElementById('texto-safire').innerHTML = texto;
-            }
-        }
-
-        function toggleBalao() {
-            const balao = document.getElementById('balao-safire');
-            balao.style.display = balao.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function fecharBalao() { 
-            document.getElementById('balao-safire').style.display = 'none'; 
-        }
-
-        async function pedirAvaliacaoSafire() {
-            // Salva o projeto antes de analisar para garantir que não vai perder nada
-            salvarGeral(false); 
-            
-            atualizarSafire('analisando', "Miau! Deixe-me ver o que você aprontou... Analisando sua papelada, Artista.");
-
-            const dados = {
-                titulo: document.getElementById('p-titulo').value,
-                descricao: document.getElementById('p-descricao').value,
-                justificativa: document.getElementById('p-justificativa').value,
-                publico: document.getElementById('p-publico').value
-            };
-
-            try {
-                const response = await fetch('/.netlify/functions/safire', {
-                    method: 'POST',
-                    body: JSON.stringify(dados)
-                });
-                const resultado = await response.json();
-                
-                let feedback = resultado.feedback;
-
-                // Lógica para definir a cara dela baseada na resposta da IA
-                if (feedback.includes('[BOM]')) {
-                    feedback = feedback.replace('[BOM]', '').replace(/\n/g, '<br>').trim();
-                    atualizarSafire('bom', feedback);
-                } else if (feedback.includes('[RUIM]')) {
-                    feedback = feedback.replace('[RUIM]', '').replace(/\n/g, '<br>').trim();
-                    atualizarSafire('ruim', feedback);
-                } else {
-                    // Caso ela não mande a tag por algum motivo
-                    feedback = feedback.replace(/\n/g, '<br>').trim();
-                    atualizarSafire('espera', feedback);
-                }
-
-            } catch (e) {
-                atualizarSafire('ruim', "Miau! Deu erro na minha conexão. Verifique se o servidor está no ar e tente de novo.");
-            }
-        }
     </script>
 </body>
 </html>
